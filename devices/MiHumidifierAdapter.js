@@ -31,19 +31,12 @@ module.exports = class {
     // OptionalServices
     this.optionalServices = [];
 
-    // Background polling (to keep alive)
-    this.configForPolling = null;
-
     // Cached values
     this.cache = {}
   }
 
   // private
   registerCharacteristic(cconfig) {
-    if (cconfig.id == 'CurrentRelativeHumidity') {
-      this.configForPolling = cconfig;
-    }
-
     const characteristic = cconfig.service.getCharacteristic(cconfig.type);
     if (cconfig.props) {
       characteristic.setProps(cconfig.props);
@@ -52,7 +45,7 @@ module.exports = class {
     if ('get' in cconfig) {
       let cconfigget = cconfig.get;
       characteristic.on('get', async function(callback) {
-        //this.log.info(`[${cconfig.id}]-[GET]`);
+        // this.log.info(`[${cconfig.id}]-[GET]`);
         if (!this.verifyDevice(callback)) {
           return;
         }
