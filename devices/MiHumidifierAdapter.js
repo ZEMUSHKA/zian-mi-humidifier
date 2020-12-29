@@ -1,6 +1,4 @@
 const miio = require('miio');
-const repeatRequestTimeout = 100;
-const repeatAttemptsCount = 20;
 
 module.exports = class {
   constructor(log, config, api) {
@@ -35,6 +33,9 @@ module.exports = class {
 
     // Background polling (to keep alive)
     this.configForPolling = null;
+
+    // Cached values
+    this.cache = {}
   }
 
   // private
@@ -56,13 +57,12 @@ module.exports = class {
           return;
         }
 
-        this.getCharacteristicValue(cconfig.id, cconfigget).then(result=>{
-          this.log.info(`[${cconfig.id}]-[GET] value`, result.value[0].value);
-          cconfigget.response_callback(this, result.value, callback);
-        }).catch(err => {
-          this.log.warn(`[${cconfig.id}]-[GET] Error:`, err);
-          callback(err);
-        });
+        // get value from cache
+        let call_args = cconfigget.call_args(this)[0];
+        let cached_value = this.cache[[call_args.siid, call_args.piid]];
+        this.log.info(`[${cconfig.id}]-[GET] value`, cached_value);
+        cconfigget.response_callback(this, [{value: cached_value}], callback);
+
       }.bind(this));
     }
 
@@ -75,43 +75,23 @@ module.exports = class {
         }
         this.log.debug(
             `[${cconfig.id}]-[SET] Call device:`, cconfigset.call_name,
-            cconfigset.call_args(
-                this, value));
-        this.device.call(cconfigset.call_name,
-            cconfigset.call_args(this, value)).then(result => {
-          this.log.debug(
-              `[${cconfig.id}]-[SET] Response from device:`, result);
+            cconfigset.call_args(this, value));
+        this.device.call(cconfigset.call_name, cconfigset.call_args(this, value))
+        .then(result => {
+          this.log.debug(`[${cconfig.id}]-[SET] Response from device:`, result);
+          
+          // update cache right now
+          let call_args = cconfigset.call_args(this, value)[0];
+          this.cache[[call_args.siid, call_args.piid]] = value;
+          
           cconfigset.response_callback(this, result, callback);
-        }).catch(err => {
+        })
+        .catch(err => {
           this.log.warn(`[${cconfig.id}]-[SET] Error:`, err);
           callback(err);
         });
       }.bind(this));
     }
-  }
-
-  // private
-  async getCharacteristicValueAttempt(cconfigid, cconfigget, resolve, reject, attemptNumber) {
-    this.log.debug(`[${cconfigid}]-[GET] Call device:`, cconfigget.call_name, cconfigget.call_args(this));
-    this.device.call(cconfigget.call_name, cconfigget.call_args(this))
-    .then(value => resolve({ attempt: attemptNumber, value: value }))
-    .catch(err => {
-      this.log.info(`[${cconfigid}]-[GET] fucked up`, attemptNumber, err.message);
-      if (attemptNumber < repeatAttemptsCount + 1) {
-        this.sleep(repeatRequestTimeout)
-        .then(() => this.getCharacteristicValueAttempt(cconfigid, cconfigget, resolve, reject, attemptNumber + 1));
-        return;
-      }
-      reject(err);
-    });
-  }
-
-  // private
-  async getCharacteristicValue(cconfigid, cconfigget) {
-    const getCharacteristicPromise = new Promise((resolve, reject) => {
-      this.getCharacteristicValueAttempt(cconfigid, cconfigget, resolve, reject, 1);
-    });
-    return await getCharacteristicPromise;
   }
 
   // public
@@ -154,10 +134,29 @@ module.exports = class {
     }
   }
 
+  updateCache() {
+    this.device.call('get_properties', [
+      { did: this.device.id, siid: 3, piid: 9, value: null },
+      { did: this.device.id, siid: 2, piid: 1, value: null },
+      { did: this.device.id, siid: 6, piid: 1, value: null },
+      { did: this.device.id, siid: 2, piid: 8, value: null },
+      { did: this.device.id, siid: 2, piid: 7, value: null },
+      { did: this.device.id, siid: 2, piid: 6, value: null },
+      { did: this.device.id, siid: 2, piid: 5, value: null },
+      { did: this.device.id, siid: 5, piid: 2, value: null },
+      { did: this.device.id, siid: 3, piid: 7, value: null },
+      { did: this.device.id, siid: 4, piid: 1, value: null }
+    ])
+    .then(result => {
+      result.forEach(item => this.cache[[item.siid, item.piid]] = item.value);
+      this.log.info(`cache updated`);
+    })
+    .catch(err => { this.log.info(`cache update failed`); });
+  }
+
   async infinitePolling() {
-    this.getCharacteristicValue(this.configForPolling.id, this.configForPolling.get)
-    .then(result => { this.log.info(`done polling`); })
-    .catch(err => { this.log.info(`failed polling`); });
+    // cache is constantly updated
+    this.updateCache();
     setTimeout(() => { this.infinitePolling(); }, 30000);
   }
 
