@@ -52,7 +52,7 @@ module.exports = class {
     if ('get' in cconfig) {
       let cconfigget = cconfig.get;
       characteristic.on('get', async function(callback) {
-        this.log.info(`[${cconfig.id}]-[GET]`);
+        //this.log.info(`[${cconfig.id}]-[GET]`);
         if (!this.verifyDevice(callback)) {
           return;
         }
