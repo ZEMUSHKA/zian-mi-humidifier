@@ -1,6 +1,6 @@
 {
   "name": "homebridge-zian-humidifer",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "homebridge-zian-humidifer",
   "main": "index.js",
   "author": "zimovnov@gmail.com",
