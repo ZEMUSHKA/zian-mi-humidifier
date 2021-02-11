@@ -1,7 +1,7 @@
 {
-  "name": "zian-mi-humidifier",
+  "name": "homebridge-zian-humidifer",
   "version": "1.4.2",
-  "description": "zian-mi-humidifier",
+  "description": "homebridge-zian-humidifer",
   "main": "index.js",
   "author": "zimovnov@gmail.com",
   "license": "MIT",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ZEMUSHKA/zian-mi-humidifier.git"
+    "url": "https://github.com/ZEMUSHKA/homebridge-zian-humidifer.git"
   },
   "engines": {
     "node": ">=8.3.0",
