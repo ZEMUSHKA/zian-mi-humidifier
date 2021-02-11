@@ -13,7 +13,7 @@
   "platforms": [],
   "accessories": [
     {
-      "accessory": "ZianHumidifier",
+      "accessory": "ZianMiHumidifier",
       "name": "Bedroom Humidifier",
       "ip": "192.168.x.x",
       "token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",

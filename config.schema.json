@@ -1,5 +1,5 @@
 {
-  "pluginAlias": "ZianHumidifier",
+  "pluginAlias": "ZianMiHumidifier",
   "pluginType": "accessory",
   "schema": {
     "type": "object",
