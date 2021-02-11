@@ -27,7 +27,7 @@ let Service, Characteristic;
 module.exports = homebridge => {
     Service = homebridge.hap.Service
     Characteristic = homebridge.hap.Characteristic
-    homebridge.registerAccessory('homebridge-mi-humidifier', 'MiHumidifier', MiHumidifier)
+    homebridge.registerAccessory('homebridge-mi-humidifier', 'ZianMiHumidifier', MiHumidifier)
 };
 
 
