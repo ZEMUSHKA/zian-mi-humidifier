@@ -27,11 +27,11 @@ let Service, Characteristic;
 module.exports = homebridge => {
     Service = homebridge.hap.Service
     Characteristic = homebridge.hap.Characteristic
-    homebridge.registerAccessory('homebridge-mi-humidifier', 'ZianMiHumidifier', MiHumidifier)
+    homebridge.registerAccessory('homebridge-zian-humidifer', 'ZianHumidifier', ZianHumidifier)
 };
 
 
-class MiHumidifier {
+class ZianHumidifier {
     constructor(log, config, api) {
         if (!config.ip) throw new Error('Your must provide IP address of the Humidifier');
         if (!config.token) throw new Error('Your must provide token of the Humidifier');
