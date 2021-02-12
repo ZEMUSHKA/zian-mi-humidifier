@@ -235,7 +235,7 @@ module.exports = class extends MiHumidifierAdapter {
     ];
 
     // DisplayService
-    this.displayService = new Service.Lightbulb('Screen');
+    this.displayService = new Service.Lightbulb('ScreenCA4');
     this.optionalServices.push(this.displayService);
     characteristicsConfigs = characteristicsConfigs.concat([
       {
