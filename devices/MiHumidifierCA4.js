@@ -221,7 +221,7 @@ module.exports = class extends MiHumidifierAdapter {
         set    : {
           call_name        : 'set_properties',
           call_args        : function (_this, value) {
-            return [{ did: _this.device.id, siid: 2, piid: 5, value: value }]
+            return [{ did: _this.device.id, siid: 2, piid: 5, value: value > 0 ? value : 1 }]
           },
           response_callback: function (_this, result, callback) {
             if (result[0].code === 0) {

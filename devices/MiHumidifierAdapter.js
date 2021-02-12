@@ -128,42 +128,42 @@ module.exports = class {
   }
 
   updateCache() {
-    if (config.model == 'ca4') {
-      this.device.call('get_properties', [
-        { did: this.device.id, siid: 3, piid: 9, value: null },
-        { did: this.device.id, siid: 2, piid: 1, value: null },
-        { did: this.device.id, siid: 6, piid: 1, value: null },
-        { did: this.device.id, siid: 2, piid: 8, value: null },
-        { did: this.device.id, siid: 2, piid: 7, value: null },
-        { did: this.device.id, siid: 2, piid: 6, value: null },
-        { did: this.device.id, siid: 2, piid: 5, value: null },
-        { did: this.device.id, siid: 5, piid: 2, value: null },
-        { did: this.device.id, siid: 3, piid: 7, value: null },
-        { did: this.device.id, siid: 4, piid: 1, value: null }
-      ])
-      .then(result => {
-        result.forEach(item => this.cache[[item.siid, item.piid]] = item.value);
-        this.log.info(`cache updated`);
-      })
-      .catch(err => { this.log.info(`cache update failed`); });
-    }
-    if (config.model == 'jsq4') {
-      this.device.call('get_properties', [
-        { did: this.device.id, siid: 2, piid: 1, value: null },
-        { did: this.device.id, siid: 2, piid: 5, value: null },
-        { did: this.device.id, siid: 2, piid: 6, value: null },
-        { did: this.device.id, siid: 7, piid: 1, value: null },
-        { did: this.device.id, siid: 3, piid: 1, value: null },
-        { did: this.device.id, siid: 6, piid: 1, value: null },
-        { did: this.device.id, siid: 5, piid: 1, value: null },
-        { did: this.device.id, siid: 3, piid: 7, value: null },
-      ])
-      .then(result => {
-        result.forEach(item => this.cache[[item.siid, item.piid]] = item.value);
-        this.log.info(`cache updated`);
-      })
-      .catch(err => { this.log.info(`cache update failed`); });
-    }
+    // ca4
+    this.device.call('get_properties', [
+      { did: this.device.id, siid: 3, piid: 9, value: null },
+      { did: this.device.id, siid: 2, piid: 1, value: null },
+      { did: this.device.id, siid: 6, piid: 1, value: null },
+      { did: this.device.id, siid: 2, piid: 8, value: null },
+      { did: this.device.id, siid: 2, piid: 7, value: null },
+      { did: this.device.id, siid: 2, piid: 6, value: null },
+      { did: this.device.id, siid: 2, piid: 5, value: null },
+      { did: this.device.id, siid: 5, piid: 2, value: null },
+      { did: this.device.id, siid: 3, piid: 7, value: null },
+      { did: this.device.id, siid: 4, piid: 1, value: null },
+    ])
+    .then(result => {
+      result.forEach(item => this.cache[[item.siid, item.piid]] = item.value);
+      this.log.info(`cache updated`);
+    })
+    .catch(err => { this.log.info(`cache update failed`); });
+    // jsq4
+    this.device.call('get_properties', [
+      { did: this.device.id, siid: 2, piid: 1, value: null },
+      { did: this.device.id, siid: 2, piid: 5, value: null },
+      { did: this.device.id, siid: 2, piid: 6, value: null },
+      { did: this.device.id, siid: 7, piid: 1, value: null },
+      { did: this.device.id, siid: 3, piid: 1, value: null },
+      { did: this.device.id, siid: 6, piid: 1, value: null },
+      { did: this.device.id, siid: 5, piid: 1, value: null },
+      { did: this.device.id, siid: 3, piid: 7, value: null },
+    ])
+    .then(result => {
+      result.forEach(item => this.cache[[item.siid, item.piid]] = item.value);
+      this.log.info(`cache updated`);
+    })
+    .catch(err => { this.log.info(`cache update failed`); });
+    // log
+    this.log.debug(this.cache);
   }
 
   async infinitePolling() {
