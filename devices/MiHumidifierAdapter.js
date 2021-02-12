@@ -163,7 +163,7 @@ module.exports = class {
     })
     .catch(err => { this.log.info(`cache update failed`); });
     // log
-    this.log.debug(this.cache);
+    // this.log.debug(this.cache);
   }
 
   async infinitePolling() {
