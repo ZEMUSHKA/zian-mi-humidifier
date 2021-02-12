@@ -1,10 +1,14 @@
 const MiHumidifierCA4 = require('./MiHumidifierCA4');
+const MiHumidifierJSQ4 = require('./MiHumidifierJSQ4');
 
 module.exports = class {
 
   static adapterVersionMap = {
     'ca4': function(log, config, api) {
       return new MiHumidifierCA4(log, config, api);
+    },
+    'jsq4': function(log, config, api) {
+      return new MiHumidifierJSQ4(log, config, api);
     },
   };
 
