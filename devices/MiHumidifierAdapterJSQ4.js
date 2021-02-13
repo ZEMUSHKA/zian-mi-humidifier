@@ -127,25 +127,20 @@ module.exports = class {
     }
   }
 
+  async reconnect() {
+    try {
+      let reconnected = await miio.device({address: this.ip, token: this.token});
+      if (this.device) {
+        this.device.destroy();
+      }
+      this.device = reconnected;
+    } catch (e) {
+      this.log.warn('Reconnect fail, retrying...', e);
+      setTimeout(() => { this.reconnect(); }, 500);
+    }
+  }
+
   updateCache() {
-    // ca4
-    this.device.call('get_properties', [
-      { did: this.device.id, siid: 3, piid: 9, value: null },
-      { did: this.device.id, siid: 2, piid: 1, value: null },
-      { did: this.device.id, siid: 6, piid: 1, value: null },
-      { did: this.device.id, siid: 2, piid: 8, value: null },
-      { did: this.device.id, siid: 2, piid: 7, value: null },
-      { did: this.device.id, siid: 2, piid: 6, value: null },
-      { did: this.device.id, siid: 2, piid: 5, value: null },
-      { did: this.device.id, siid: 5, piid: 2, value: null },
-      { did: this.device.id, siid: 3, piid: 7, value: null },
-      { did: this.device.id, siid: 4, piid: 1, value: null },
-    ])
-    .then(result => {
-      result.forEach(item => this.cache[[item.siid, item.piid]] = item.value);
-      this.log.info(`cache updated`);
-    })
-    .catch(err => { this.log.info(`cache update failed`); });
     // jsq4
     this.device.call('get_properties', [
       { did: this.device.id, siid: 2, piid: 1, value: null },
@@ -162,11 +157,11 @@ module.exports = class {
       this.log.info(`cache updated`);
     })
     .catch(err => { this.log.info(`cache update failed`); });
-    // log
-    // this.log.debug(this.cache);
   }
 
   async infinitePolling() {
+    // maybe socket is lost or something...
+    this.reconnect();
     // cache is constantly updated
     this.updateCache();
     setTimeout(() => { this.infinitePolling(); }, 30000);

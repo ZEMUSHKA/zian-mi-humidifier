@@ -1,5 +1,5 @@
 // MiHumidifierCA4
-const MiHumidifierAdapter = require('./MiHumidifierAdapter');
+const MiHumidifierAdapter = require('./MiHumidifierAdapterCA4');
 
 module.exports = class extends MiHumidifierAdapter {
 
