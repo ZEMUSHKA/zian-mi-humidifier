@@ -75,7 +75,7 @@ module.exports = class {
           
           // update cache right now
           let call_args = cconfigset.call_args(this, value)[0];
-          this.cache[[call_args.siid, call_args.piid]] = value;
+          this.cache[[call_args.siid, call_args.piid]] = call_args.value;
           
           cconfigset.response_callback(this, result, callback);
         })
