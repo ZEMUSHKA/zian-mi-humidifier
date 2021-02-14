@@ -206,7 +206,7 @@ module.exports = class extends MiHumidifierAdapter {
         type   : Characteristic.RotationSpeed,
         props  : {
           minValue: 0,
-          maxValue: 3,
+          maxValue: 4,
           minStep : 1,
         },
         get    : {
@@ -215,13 +215,13 @@ module.exports = class extends MiHumidifierAdapter {
             return [{ did: _this.device.id, siid: 2, piid: 5, value: null }]
           },
           response_callback: function (_this, result, callback) {
-            callback(null, result[0].value)
+            callback(null, result[0].value == 0 ? 4 : result[0].value)  // auto is 0
           },
         },
         set    : {
           call_name        : 'set_properties',
           call_args        : function (_this, value) {
-            return [{ did: _this.device.id, siid: 2, piid: 5, value: value > 0 ? value : 1 }]
+            return [{ did: _this.device.id, siid: 2, piid: 5, value: value > 0 ? (value == 4 ? 0 : value) : 1 }]
           },
           response_callback: function (_this, result, callback) {
             if (result[0].code === 0) {
