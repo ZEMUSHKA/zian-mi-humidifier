@@ -143,9 +143,9 @@ module.exports = class {
     ])
     .then(result => {
       result.forEach(item => this.cache[[item.siid, item.piid]] = item.value);
-      this.log.info(`cache updated`);
+      this.log.debug(`cache updated`);
     })
-    .catch(err => { this.log.info(`cache update failed`); });
+    .catch(err => { this.log.warn(`cache update failed`); });
   }
 
   async infinitePolling() {
