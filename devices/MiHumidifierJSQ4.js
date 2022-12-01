@@ -162,18 +162,14 @@ module.exports = class extends MiHumidifierAdapter {
     ];
 
     // DisplayService
-    this.displayService = new Service.Lightbulb('ScreenJSQ4');
+    this.displayService = new Service.Switch(options.nameMuteSwitch + 'Screen', 'screen');
     this.optionalServices.push(this.displayService);
     characteristicsConfigs = characteristicsConfigs.concat([
       {
         id     : 'DS.Brightness',
         service: this.displayService,
-        type   : Characteristic.Brightness,
-        props  : {
-          minValue: 0,
-          maxValue: 1,
-          minStep : 1,
-        },
+        type   : Characteristic.On,
+        props  : null,
         get    : {
           call_name        : 'get_properties',
           call_args        : function (_this) {
@@ -186,7 +182,7 @@ module.exports = class extends MiHumidifierAdapter {
         set    : {
           call_name        : 'set_properties',
           call_args        : function (_this, value) {
-            return [{ did: _this.device.id, siid: 6, piid: 1, value: value == 1 ? true : false }]
+            return [{ did: _this.device.id, siid: 6, piid: 1, value: value }]
           },
           response_callback: function (_this, result, callback) {
             if (result[0].code === 0) {
@@ -249,7 +245,7 @@ module.exports = class extends MiHumidifierAdapter {
 
     // SpeakerService
     if (options.showMuteSwitch) {
-      this.speakerService = new Service.Switch(options.nameMuteSwitch);
+      this.speakerService = new Service.Switch(options.nameMuteSwitch + 'Speaker', 'speaker');
       this.optionalServices.push(this.speakerService);
       characteristicsConfigs = characteristicsConfigs.concat([
         {
