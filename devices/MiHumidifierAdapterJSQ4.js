@@ -122,7 +122,7 @@ module.exports = class {
       // prohibit to go to idle
       this.infinitePolling();
     } catch (e) {
-      this.log.warn('Fail to discover the device. Retry in 10 sec', e);
+      this.log.debug('Fail to discover the device. Retry in 10 sec', e);
       setTimeout(() => { this.discover(); }, 10000);
     }
   }
@@ -135,7 +135,7 @@ module.exports = class {
       }
       this.device = reconnected;
     } catch (e) {
-      this.log.warn('Reconnect fail, retrying...', e);
+      this.log.debug('Reconnect fail, retrying...', e);
       setTimeout(() => { this.reconnect(); }, 500);
     }
   }

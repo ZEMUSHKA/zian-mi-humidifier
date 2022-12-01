@@ -154,7 +154,7 @@ class ZianMiHumidifier {
             this.device = await miio.device({ address: this.ip, token: this.token });
             this.debug(`Discovered model: ${this.device.miioModel}`);
         } catch (e) {
-            this.log.warn('Fail to discover the device. Retry in 1 minute', e);
+            this.log.debug('Fail to discover the device. Retry in 1 minute', e);
             setTimeout(() => { this.discover() }, 60000);
         }
     }
