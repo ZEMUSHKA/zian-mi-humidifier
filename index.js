@@ -22,7 +22,7 @@ class ZianMiHumidifier {
         }
     }
 
-    @SuppressWarnings("unused")
+    // ignore unused
     getServices() {
         return this.services;
     }
