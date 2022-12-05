@@ -167,10 +167,4 @@ module.exports = class {
     setTimeout(() => { this.infinitePolling(); }, 30000);
   }
 
-  sleep(ms) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, ms);
-    });
-  }
-
 };

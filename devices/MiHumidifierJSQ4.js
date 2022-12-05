@@ -1,7 +1,7 @@
 // MiHumidifierJSQ4
-const MiHumidifierAdapter = require('./MiHumidifierAdapterJSQ4');
+const MiHumidifierAdapterJSQ4 = require('./MiHumidifierAdapterJSQ4');
 
-module.exports = class extends MiHumidifierAdapter {
+module.exports = class extends MiHumidifierAdapterJSQ4 {
 
   constructor (log, options, api) {
     super(log, options, api);
@@ -21,7 +21,7 @@ module.exports = class extends MiHumidifierAdapter {
             return [{ did: _this.device.id, siid: 3, piid: 1, value: null }]
           },
           response_callback: function (_this, result, callback) {
-            //callback(null, result[0].value)
+            // callback(null, result[0].value)
             callback(null, 0)
           },
         },
