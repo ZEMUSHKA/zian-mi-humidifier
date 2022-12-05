@@ -21,7 +21,8 @@ module.exports = class extends MiHumidifierAdapter {
             return [{ did: _this.device.id, siid: 3, piid: 1, value: null }]
           },
           response_callback: function (_this, result, callback) {
-            callback(null, result[0].value)
+            //callback(null, result[0].value)
+            callback(null, 0)
           },
         },
       },
