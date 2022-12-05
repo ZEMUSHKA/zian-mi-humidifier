@@ -17,7 +17,7 @@
       "name": "Bedroom Humidifier",
       "ip": "192.168.x.x",
       "token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-      "model": "v1",
+      "model": "jsq4",
       "nameTemperature": "Bedroom Temperature 1",
       "showHumidity": false
     }
@@ -29,7 +29,7 @@
 
 - `ip` – device IP address;
 - `token` – device token (32 hex chars);
-- `model` (optional) – the model of a humidifier (`v1` for Smartmi Humidifier, `ca1` or `cb1` for Smartmi Evaporative Humidifier). Default is 'v1';
+- `model` (optional) – the model of a humidifier (`jsq4` for Mijia Mi Smart Evaporative Humidifier);
 - `name` (optional) – device name. Default is 'Humidifier';
 - `showMuteSwitch` (optional) – if `true`, the mute humidifier buzzer switch will be added. Default is `false`;
 - `nameMuteSwitch` (optional) – mute humidifier buzzer switch name. Default is 'Mute humidifier';
