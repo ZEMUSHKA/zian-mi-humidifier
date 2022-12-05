@@ -26,31 +26,11 @@
         "type": "string",
         "oneOf": [
           {
-            "title": "v1",
-            "enum": ["v1"]
-          },
-          {
-            "title": "ca1",
-            "enum": ["ca1"]
-          },
-          {
-            "title": "ca4",
-            "enum": ["ca4"]
-          },
-          {
-            "title": "cb1",
-            "enum": ["cb1"]
-          },
-          {
-            "title": "mjjsq",
-            "enum": ["mjjsq"]
-          },
-          {
             "title": "jsq4",
             "enum": ["jsq4"]
           }
         ],
-        "default": "v1"
+        "default": "jsq4"
       },
       "showMuteSwitch": {
         "title": "Show mute switch",
