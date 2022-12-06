@@ -62,13 +62,8 @@ module.exports = class extends MiHumidifierAdapterJSQ4 {
         set    : {
           call_name        : 'set_properties',
           call_args        : function (_this, value) {
-            return [
-              {
-                did  : _this.device.id,
-                siid : 2,
-                piid : 1,
-                value: Characteristic.Active.ACTIVE === value,
-              }]
+            return [{ did  : _this.device.id, siid : 2, piid : 1,
+              value: Characteristic.Active.ACTIVE === value }]
           },
           response_callback: function (_this, result, callback) {
             if (result[0].code === 0) {
@@ -266,13 +261,7 @@ module.exports = class extends MiHumidifierAdapterJSQ4 {
           set    : {
             call_name        : 'set_properties',
             call_args        : function (_this, value) {
-              return [
-                {
-                  did  : _this.device.id,
-                  siid : 5,
-                  piid : 1,
-                  value: value,
-                }]
+              return [{ did  : _this.device.id, siid : 5, piid : 1, value: value }]
             },
             response_callback: function (_this, result, callback) {
               if (result[0].code === 0) {
