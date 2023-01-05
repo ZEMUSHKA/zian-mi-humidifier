@@ -1,10 +1,19 @@
 // MiHumidifierJSQ4
-const MiHumidifierAdapterJSQ4 = require('./MiHumidifierAdapterJSQ4');
+const MiHumidifierAdapter = require('./MiHumidifierAdapter');
 
-module.exports = class extends MiHumidifierAdapterJSQ4 {
+module.exports = class extends MiHumidifierAdapter {
 
   constructor (log, options, api) {
-    super(log, options, api);
+    super(log, options, api, [
+      {siid: 2, piid: 1},
+      {siid: 2, piid: 5},
+      {siid: 2, piid: 6},
+      {siid: 7, piid: 1},
+      {siid: 3, piid: 1},
+      {siid: 6, piid: 1},
+      {siid: 5, piid: 1},
+      {siid: 3, piid: 7},
+    ]);
 
     let Service = this.api.hap.Service;
     let Characteristic = this.api.hap.Characteristic;

@@ -1,10 +1,11 @@
 const miio = require('miio');
 
 module.exports = class {
-  constructor(log, config, api) {
+  constructor(log, config, api, ids) {
     this.log = log;
     this.config = config;
     this.api = api;
+    this.ids = ids // [{siid: 2, piid: 5}, ...]
 
     let Service = this.api.hap.Service;
     let Characteristic = this.api.hap.Characteristic;
@@ -141,17 +142,9 @@ module.exports = class {
   }
 
   updateCache() {
-    // jsq4
-    this.device.call('get_properties', [
-      { did: this.device.id, siid: 2, piid: 1, value: null },
-      { did: this.device.id, siid: 2, piid: 5, value: null },
-      { did: this.device.id, siid: 2, piid: 6, value: null },
-      { did: this.device.id, siid: 7, piid: 1, value: null },
-      { did: this.device.id, siid: 3, piid: 1, value: null },
-      { did: this.device.id, siid: 6, piid: 1, value: null },
-      { did: this.device.id, siid: 5, piid: 1, value: null },
-      { did: this.device.id, siid: 3, piid: 7, value: null },
-    ])
+    this.device.call('get_properties', this.ids.map(e => {
+        return { did: this.device.id, siid: e.siid, piid: e.piid, value: null }
+    }))
     .then(result => {
       result.forEach(item => this.cache[[item.siid, item.piid]] = item.value);
       this.log.debug(`cache updated`);
