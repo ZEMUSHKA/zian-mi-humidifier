@@ -30,8 +30,8 @@ module.exports = class extends MiHumidifierAdapter {
             return [{ did: _this.device.id, siid: 3, piid: 1, value: null }]
           },
           response_callback: function (_this, result, callback) {
-            // callback(null, result[0].value)
-            callback(null, 0)
+            callback(null, result[0].value)
+            // callback(null, 0)
           },
         },
       },
@@ -154,8 +154,8 @@ module.exports = class extends MiHumidifierAdapter {
           call_name        : 'set_properties',
           call_args        : function (_this, value) {
             if (value === 0) {
-              // set active = false
-              return [{ did: _this.device.id, siid: 2, piid: 1, value: false }]
+              // workaround, set something (brightness)
+              return [{ did: _this.device.id, siid: 10, piid: 2, value: 50 }]
             } else {
               return [{ did: _this.device.id, siid: 2, piid: 3, value: 3 - value}]
             }
@@ -164,7 +164,12 @@ module.exports = class extends MiHumidifierAdapter {
             if (result[0].code === 0) {
               callback(null)
             } else {
-              callback(new Error(result[0]))
+              if (result[0].siid === 10) {
+                // ignore error on unwanted set
+                callback(null)
+              } else {
+                callback(new Error(result[0]))
+              }
             }
           },
         },
