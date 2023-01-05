@@ -153,6 +153,8 @@ module.exports = class extends MiHumidifierAdapter {
         set    : {
           call_name        : 'set_properties',
           call_args        : function (_this, value) {
+            (new Promise((x) => {setTimeout(x, 1000);}))
+              .then(() => log.debug("Waited 1000 ms"));
             if (value === 0) {
               // workaround, fake set
               return [{ did: _this.device.id, siid: 100, piid: 100, value: 0 }]
@@ -279,4 +281,9 @@ module.exports = class extends MiHumidifierAdapter {
 
   }
 
+  sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+  }
 };
