@@ -67,16 +67,16 @@ module.exports = class {
         if (!this.verifyDevice(callback)) {
           return;
         }
+        let call_args = cconfigset.call_args(this, value);
         this.log.debug(
             `[${cconfig.id}]-[SET] Call device:`, cconfigset.call_name,
-            cconfigset.call_args(this, value));
-        this.device.call(cconfigset.call_name, cconfigset.call_args(this, value))
+            call_args);
+        this.device.call(cconfigset.call_name, call_args)
         .then(result => {
           this.log.debug(`[${cconfig.id}]-[SET] Response from device:`, result);
           
           // update cache right now
-          let call_args = cconfigset.call_args(this, value)[0];
-          this.cache[[call_args.siid, call_args.piid]] = call_args.value;
+          this.cache[[call_args[0].siid, call_args[0].piid]] = call_args[0].value;
           
           cconfigset.response_callback(this, result, callback);
         })
