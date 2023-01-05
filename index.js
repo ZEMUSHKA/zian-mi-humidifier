@@ -1,5 +1,6 @@
 // Characteristics: http://auto.caitken.com/posts/2018/09/09/nodered-homekit-characteristics-reference
 const MiHumidifierJSQ4 = require("./devices/MiHumidifierJSQ4");
+const MiHumidifierLeshowJSQ1 = require("./devices/MiHumidifierLeshowJSQ1");
 
 let Service, Characteristic;
 
@@ -17,8 +18,12 @@ class ZianMiHumidifier {
         if (config.model === 'jsq4') {
             this.humidifier = new MiHumidifierJSQ4(log, config, api);
         } else {
-            log.warn('Humidifier not supported: ', config.model);
-            this.humidifier = null;
+            if (config.model === 'leshowjsq1') {
+                this.humidifier = new MiHumidifierLeshowJSQ1(log, config, api);
+            } else {
+                log.warn('Humidifier not supported: ', config.model);
+                this.humidifier = null;
+            }
         }
 
         if (this.humidifier) {
