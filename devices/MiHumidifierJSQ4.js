@@ -1,6 +1,7 @@
 // MiHumidifierJSQ4
 const MiHumidifierAdapter = require('./MiHumidifierAdapter');
 
+// https://miot-spec.org/miot-spec-v2/instance?type=urn:miot-spec-v2:device:humidifier:0000A00E:deerma-jsq4:2
 module.exports = class extends MiHumidifierAdapter {
 
   constructor (log, options, api) {

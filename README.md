@@ -1,5 +1,11 @@
 # DO NOT USE THIS PLUGIN
 
+### Debugging
+```
+miiocli device --ip ***  --token *** raw_command set_properties '[{"siid":2,"piid":3,"value":2}]'
+miiocli device --ip ***  --token *** raw_command get_properties '[{"siid":2,"piid":3}]'
+```
+
 ### Example config
 
 ```json
