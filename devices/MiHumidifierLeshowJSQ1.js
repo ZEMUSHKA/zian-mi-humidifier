@@ -154,8 +154,8 @@ module.exports = class extends MiHumidifierAdapter {
           call_name        : 'set_properties',
           call_args        : function (_this, value) {
             if (value === 0) {
-              // workaround, set something (brightness)
-              return [{ did: _this.device.id, siid: 10, piid: 2, value: 50 }]
+              // workaround, fake set
+              return [{ did: _this.device.id, siid: 100, piid: 100, value: 0 }]
             } else {
               return [{ did: _this.device.id, siid: 2, piid: 3, value: 3 - value}]
             }
@@ -164,8 +164,8 @@ module.exports = class extends MiHumidifierAdapter {
             if (result[0].code === 0) {
               callback(null)
             } else {
-              if (result[0].siid === 10) {
-                // ignore error on unwanted set
+              if (result[0].siid === 100) {
+                // ignore error on fake set
                 callback(null)
               } else {
                 callback(new Error(result[0]))
