@@ -153,14 +153,6 @@ module.exports = class extends MiHumidifierAdapter {
         set    : {
           call_name        : 'set_properties',
           call_args        : function (_this, value) {
-            // haha, I can wait
-            let timeStart = new Date().getTime();
-            while (true) {
-              let elapsedTime = new Date().getTime() - timeStart;
-              if (elapsedTime > 500) {
-                break;
-              }
-            }
             if (value === 0) {
               // workaround, fake set
               return [{ did: _this.device.id, siid: 100, piid: 100, value: 0 }]
@@ -176,7 +168,8 @@ module.exports = class extends MiHumidifierAdapter {
                 // ignore error on fake set
                 callback(null)
               } else {
-                callback(new Error(result[0]))
+                // callback(new Error(result[0]))
+                callback(null)
               }
             }
           },
